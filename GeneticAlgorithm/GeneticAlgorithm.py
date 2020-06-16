@@ -20,10 +20,12 @@ class GeneticAlgorithm:
             offsprings = [0 for i in range(self.num_offsprings)]
 
             # 개발자가 지정하는 교배 및 변이 횟수
-            num_crossover = math.ceil(self.num_offsprings / 2) + rand.randint(0, 1)
-            num_mutation = math.ceil(self.num_offsprings / 5) + rand.randint(0, 1)
+            num_crossover = math.ceil(self.num_offsprings / 2) + rand.randint(0, 2)
+            num_mutation = math.ceil(self.num_offsprings / 9)
+
             crossover = 0
             mutation = 0
+            maintain = 0
 
             for idx in range(self.num_offsprings):
                 case = 0
@@ -32,11 +34,10 @@ class GeneticAlgorithm:
 
                 # 교배
                 if num_crossover >= 0 & idx < self.num_offsprings - 1:
-                    if idx % 2 == 0:
-                        offsprings[idx], offsprings[idx + 1] = self.crossover_parents(p1, p2)
-                        num_crossover -= 1
-                        crossover += 1
-                        case = 1
+                    offsprings[idx], offsprings[idx + 1] = self.crossover_parents(p1, p2)
+                    num_crossover -= 1
+                    crossover += 1
+                    case = 1
 
                 # 변이
                 if num_mutation >= 0:
@@ -48,9 +49,11 @@ class GeneticAlgorithm:
                 # 유지
                 if case == 0:
                     offsprings[idx] = self.population[idx]
+                    maintain += 1
 
             self.population = self.substitute_population(offsprings)
-            print("#", gen, "th population\n", self.population, "\ncrossover: ", crossover, " mutation", mutation, "\n")
+            print("#", gen, "th population\n", self.population, "\ncrossover: ", crossover, " mutation: ", mutation,
+                  "maintain: ", maintain, "\n")
 
         most_fittest = self.find_best_solution()
 
