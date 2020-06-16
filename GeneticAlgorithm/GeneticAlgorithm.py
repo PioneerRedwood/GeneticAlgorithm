@@ -18,6 +18,8 @@ class GeneticAlgorithm:
 
             # 1차원 배열
             offsprings = [0 for i in range(self.num_offsprings)]
+
+            # 개발자가 지정하는 교배 및 변이 횟수
             num_crossover = math.ceil(self.num_offsprings / 2) + rand.randint(0, 1)
             num_mutation = math.ceil(self.num_offsprings / 5) + rand.randint(0, 1)
             crossover = 0
@@ -29,7 +31,7 @@ class GeneticAlgorithm:
                 p1, p2 = self.select_parents(self.population)
 
                 # 교배
-                if num_crossover >= 0 & num_crossover <= self.num_offsprings & idx < self.num_offsprings - 1:
+                if num_crossover >= 0 & idx < self.num_offsprings - 1:
                     if idx % 2 == 0:
                         offsprings[idx], offsprings[idx + 1] = self.crossover_parents(p1, p2)
                         num_crossover -= 1
